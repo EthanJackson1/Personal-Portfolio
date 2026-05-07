@@ -85,6 +85,58 @@ resource "aws_lambda_function" "visitor_counter" {
 # 4. Automate the Zipping of your Python code
 data "archive_file" "lambda_zip" {
   type        = "zip"
-  source_file = "${path.module}/../lambda_function.py" # Adjust this path to your python file
-  output_path = "lambda_function.zip"
+  source_file = "${path.module}/lambda_function.py" # Look in the current folder
+  output_path = "${path.module}/lambda_function.zip"
+}
+
+# 1. Create the API Gateway
+resource "aws_api_gateway_rest_api" "visitor_api" {
+  name        = "VisitorCounterAPI"
+  description = "API for the Cloud Resume visitor counter"
+}
+
+# 2. Create the /counter resource
+resource "aws_api_gateway_resource" "counter_resource" {
+  rest_api_id = aws_api_gateway_rest_api.visitor_api.id
+  parent_id   = aws_api_gateway_rest_api.visitor_api.root_resource_id
+  path_part   = "counter"
+}
+
+# 3. Create the ANY method (Handles GET, POST, etc.)
+resource "aws_api_gateway_method" "counter_method" {
+  rest_api_id   = aws_api_gateway_rest_api.visitor_api.id
+  resource_id   = aws_api_gateway_resource.counter_resource.id
+  http_method   = "ANY"
+  authorization = "NONE"
+}
+
+# 4. Integrate API Gateway with Lambda (The Proxy Handshake)
+resource "aws_api_gateway_integration" "lambda_integration" {
+  rest_api_id             = aws_api_gateway_rest_api.visitor_api.id
+  resource_id             = aws_api_gateway_resource.counter_resource.id
+  http_method             = aws_api_gateway_method.counter_method.http_method
+  integration_http_method = "POST" # API Gateway always uses POST to talk TO Lambda
+  type                    = "AWS_PROXY"
+  uri                     = aws_lambda_function.visitor_counter.invoke_arn
+}
+
+# 5. Permission for API Gateway to call Lambda
+resource "aws_lambda_permission" "apigw_lambda" {
+  statement_id  = "AllowExecutionFromAPIGateway"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.visitor_counter.function_name
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.visitor_api.execution_arn}/*/*"
+}
+
+# 6. Deploy the API
+resource "aws_api_gateway_deployment" "api_deployment" {
+  depends_on  = [aws_api_gateway_integration.lambda_integration]
+  rest_api_id = aws_api_gateway_rest_api.visitor_api.id
+  stage_name  = "prod"
+}
+
+# 7. Output the URL so you don't have to look for it!
+output "base_url" {
+  value = "${aws_api_gateway_deployment.api_deployment.invoke_url}/counter"
 }

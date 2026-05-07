@@ -26,7 +26,7 @@ export default function VisitorCounter() {
   const isDark = theme === 'dark';
 
   useEffect(() => {
-    const API_ENDPOINT = 'https://sy7iuxxmp6.execute-api.eu-west-2.amazonaws.com/prod/counter';
+    const API_ENDPOINT = 'https://z8x9yvgnt3.execute-api.eu-west-2.amazonaws.com/prod/counter';
 
     const handleVisitor = async () => {
       //only log repeat visiors once
