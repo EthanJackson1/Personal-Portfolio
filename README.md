@@ -58,8 +58,8 @@ Built on a 100% **Serverless** model, the architecture follows a "pay-as-you-go"
 
 ## Contact & Portfolio
 **Developed by [Your Name]**
-- **Live Site:** d1koe97wkxxi4t.cloudfront.net
-- **LinkedIn:** linkedin.com/in/ethan-jackson03
+- **Live Site:** https://d1koe97wkxxi4t.cloudfront.net
+- **LinkedIn:** https://linkedin.com/in/ethan-jackson03
 - **GitHub:** https://github.com/EthanJackson1
 
 ---
