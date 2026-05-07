@@ -1,3 +1,8 @@
+node_modules/
+dist/
+.env
+.DS_Store
+
 # Terraform files
 .terraform/
 *.tfstate
