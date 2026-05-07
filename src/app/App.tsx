@@ -59,8 +59,6 @@ function AppContent() {
             I specialise in Web Services (AWS, OCI), Cloud Architecture, and Frontend Development.
           </p>
 
-          //test github actions
-
           {/* GitHub Source Button */}
           <a
             href="https://github.com/EthanJackson1/Personal-Portfolio"
