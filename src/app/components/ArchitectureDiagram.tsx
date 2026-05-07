@@ -18,9 +18,9 @@ export default function ArchitectureDiagram() {
           ? 'bg-gray-800/50 border-gray-700'
           : 'bg-gray-100 border-gray-300'
       }`}>
-        
+
         <ImageWithFallback
-          src="././AWS_flow_chart_personal_portfolio.png"
+          src="/AWS_flow_chart_personal_portfolio.png"
           alt="Cloud Resume Architecture Diagram"
           className="w-full h-auto rounded"
           />
