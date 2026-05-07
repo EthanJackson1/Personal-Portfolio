@@ -26,37 +26,40 @@ export default function VisitorCounter() {
   const isDark = theme === 'dark';
 
   useEffect(() => {
-    // TODO: Replace with your actual API Gateway endpoint
-    // Example: 'https://abc123.execute-api.us-east-1.amazonaws.com/prod/counter'
-    const API_ENDPOINT = 'https://your-api-gateway-url.execute-api.region.amazonaws.com/prod/counter';
+    const API_ENDPOINT = 'https://sy7iuxxmp6.execute-api.eu-west-2.amazonaws.com/prod/counter';
 
-    const incrementVisitor = async () => {
+    const handleVisitor = async () => {
+      //only log repeat visiors once
+      const hasVisited = localStorage.getItem('hasVisited');
+      
+      const httpMethod = hasVisited ? 'GET' : 'POST';
+
       try {
         const response = await fetch(API_ENDPOINT, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          method: httpMethod,
+          headers: {'Content-Type': 'application/json'},
         });
 
-        if (response.ok) {
-          const data = await response.json();
-          setVisitorCount(data.count);
-        } else {
-          // Fallback to mock data if API is not set up yet
-          setVisitorCount(402);
-        }
-      } catch (error) {
-        console.error('Error fetching visitor count:', error);
-        // Mock data for development
-        setVisitorCount(402);
-      } finally {
-        setLoading(false);
-      }
-    };
+      if (response.ok) {
+        const data = await response.json();
+        const bodyObj = data.body ? JSON.parse(data.body) : data; // Handle both formats
 
-    incrementVisitor();
-  }, []);
+        setVisitorCount(bodyObj.count);
+
+        // Only set the flag if it was a successful increment
+        if (httpMethod === 'POST') {
+          localStorage.setItem('hasVisited', 'true');
+        }
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  handleVisitor();
+}, []);
 
   return (
     <div className={`inline-flex items-center gap-3 px-6 py-3 border rounded-lg ${

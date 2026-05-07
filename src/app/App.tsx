@@ -55,13 +55,13 @@ function AppContent() {
           <p className={`text-xl leading-relaxed mb-8 ${
             isDark ? 'text-gray-400' : 'text-gray-600'
           }`}>
-            A creative developer focused on building beautiful, functional web experiences.
-            I specialize in modern web technologies and clean, minimal design.
+            A creative developer passionate about building solutions to complex problems.
+            I specialise in Web Services (AWS, OCI), Cloud Architecture, and Frontend Development.
           </p>
 
           {/* GitHub Source Button */}
           <a
-            href="https://github.com/yourusername/cloud-resume-challenge"
+            href="https://github.com/EthanJackson1/Personal-Portfolio"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors"
@@ -147,7 +147,7 @@ function AppContent() {
               Feel free to reach out through any of the platforms below.
             </p>
             <div className="flex gap-6">
-              <a href="mailto:your.email@example.com" className={`flex items-center gap-2 text-sm transition-colors ${
+              <a href="mailto:ethan,jackson-9@students.plymouth.ac.uk" className={`flex items-center gap-2 text-sm transition-colors ${
                 isDark
                   ? 'text-gray-300 hover:text-white'
                   : 'text-gray-700 hover:text-gray-900'
@@ -155,7 +155,7 @@ function AppContent() {
                 <Mail className="w-5 h-5" />
                 Email
               </a>
-              <a href="https://github.com" target="_blank" rel="noopener noreferrer" className={`flex items-center gap-2 text-sm transition-colors ${
+              <a href="https://github.com/EthanJackson1" target="_blank" rel="noopener noreferrer" className={`flex items-center gap-2 text-sm transition-colors ${
                 isDark
                   ? 'text-gray-300 hover:text-white'
                   : 'text-gray-700 hover:text-gray-900'
@@ -163,7 +163,7 @@ function AppContent() {
                 <Github className="w-5 h-5" />
                 GitHub
               </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className={`flex items-center gap-2 text-sm transition-colors ${
+              <a href="https://www.linkedin.com/in/ethan-jackson03/" target="_blank" rel="noopener noreferrer" className={`flex items-center gap-2 text-sm transition-colors ${
                 isDark
                   ? 'text-gray-300 hover:text-white'
                   : 'text-gray-700 hover:text-gray-900'
