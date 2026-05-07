@@ -140,3 +140,54 @@ resource "aws_api_gateway_deployment" "api_deployment" {
 output "base_url" {
   value = "${aws_api_gateway_deployment.api_deployment.invoke_url}/counter"
 }
+
+# Create the S3 bucket
+resource "aws_s3_bucket" "website_bucket" {
+  bucket = "professional-portfolio-project-94183190aef" # Must be globally unique!
+}
+
+# Configure the bucket for static website hosting
+resource "aws_s3_bucket_website_configuration" "website_config" {
+  bucket = aws_s3_bucket.website_bucket.id
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  error_document {
+    key = "index.html" # React handles its own routing
+  }
+}
+
+# Set public access block (to allow public reading)
+resource "aws_s3_bucket_public_access_block" "website_access" {
+  bucket = aws_s3_bucket.website_bucket.id
+
+  block_public_acls       = false
+  block_public_policy     = false
+  ignore_public_acls      = false
+  restrict_public_buckets = false
+}
+
+# Add a policy so the world can see your files
+resource "aws_s3_bucket_policy" "allow_public_access" {
+  bucket = aws_s3_bucket.website_bucket.id
+  depends_on = [aws_s3_bucket_public_access_block.website_access]
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "PublicReadGetObject"
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = "s3:GetObject"
+        Resource  = "${aws_s3_bucket.website_bucket.arn}/*"
+      },
+    ]
+  })
+}
+
+# Output the website URL so you can visit it
+output "website_url" {
+  value = aws_s3_bucket_website_configuration.website_config.website_endpoint
+}
