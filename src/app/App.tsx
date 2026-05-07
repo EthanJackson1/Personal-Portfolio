@@ -8,6 +8,8 @@ import SecurityHeaders from './components/SecurityHeaders';
 import { ThemeProvider, useTheme } from './contexts/ThemeContext';
 import { Github, Linkedin, Mail, ExternalLink } from 'lucide-react';
 
+//test CI
+
 function AppContent() {
   const { theme } = useTheme();
   const isDark = theme === 'dark';
